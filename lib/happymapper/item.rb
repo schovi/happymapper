@@ -16,9 +16,7 @@ module HappyMapper
       self.type = type
       #self.tag = o.delete(:tag) || name.to_s
       self.tag = o[:tag] || name.to_s
-      self.options = { :single => true }.merge(o.merge(:name => self.name))
-
-      @xml_type = self.class.to_s.split('::').last.downcase
+      self.options = { :single => true, name: self.name}.merge(o)
     end
 
     def constant

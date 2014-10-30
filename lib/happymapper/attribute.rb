@@ -11,10 +11,21 @@ module HappyMapper
     end
 
     def find(node, namespace, xpath_options)
+      if self.namespace
+        # from the class definition
+        namespace = self.namespace
+      elsif options[:namespace]
+        namespace = options[:namespace]
+      end
+
       if options[:xpath]
-        yield(node.xpath(options[:xpath],xpath_options))
+        result = node.xpath(options[:xpath], xpath_options)
       else
-        yield(node[tag])
+        result = node.xpath(xpath(namespace), xpath_options)
+      end
+
+      if result
+        yield(result.first[self.options[:name]])
       end
     end
   end
